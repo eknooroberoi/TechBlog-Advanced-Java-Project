@@ -5,10 +5,7 @@
  */
 package com.tech.blog.servlets;
 
-import com.tech.blog.dao.UserDao;
 import com.tech.blog.entities.Message;
-import com.tech.blog.entities.User;
-import com.tech.blog.helper.ConnectionProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -21,7 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-public class LoginServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,37 +37,14 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet LogoutServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            //login
-            //fetch username and password from request
-            String userEmail=request.getParameter("email");
-            String userPassword=request.getParameter("password");
-            
-            //check if user is present in database
-            UserDao dao=new UserDao(ConnectionProvider.getConnection());
-            User u=dao.getUserByEmailAndPassword(userEmail, userPassword);
-            
-            if(u==null)
-            {
-                //login error, no user present or useremail wrong or userpassword wrong
-                //show error message
-//                out.println("Invalid details, try again");
-                Message msg=new Message("Invalid Details! try with another", "error", "alert-danger");
-                HttpSession s=request.getSession();
-                s.setAttribute("msg", msg);
-                response.sendRedirect("login_page.jsp");
-                
-            }
-            else
-            {
-                //login success
-                HttpSession s=request.getSession();
-                s.setAttribute("currentUser", u);
-                response.sendRedirect("profile.jsp");
-                
-            }
+            HttpSession s=request.getSession();
+            s.removeAttribute("currentUser");
+            Message m=new Message("Logout Successfully", "success", "alert-success");
+            s.setAttribute("msg", m);
+            response.sendRedirect("login_page.jsp");
             out.println("</body>");
             out.println("</html>");
         }
