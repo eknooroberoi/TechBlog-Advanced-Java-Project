@@ -85,6 +85,7 @@
                             <img src="pics/<%=user.getProfile()%>" class="img-fluid" style="border-radius: 50%; max-width: 150px"/>
                             <h5 class="modal-title" id="exampleModalLabel"><%=user.getName()%></h5>
                             <!--details-->
+                            <div id="profile-details">
                             <table class="table">
                                 
                                 <tbody>
@@ -115,11 +116,53 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>        
+                                        <!--profile edit-->
+                                        <div id="profile-edit" style="display: none;">
+                                            <h3 class="mt-2">Please Edit carefully!</h3>
+                                            <form action="EditServlet" method="post">
+                                                <table class="table">
+                                                    <tr>
+                                                        <td>ID : </td>
+                                                        <td><%=user.getId() %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Email : </td>
+                                                        <td><input type="email" class="form-control" name="user_email" value="<%=user.getEmail() %>"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Name : </td>
+                                                        <td><input type="text" class="form-control" name="user_name" value="<%=user.getName()%>"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Password : </td>
+                                                        <td><input type="password" class="form-control" name="user_password" value="<%=user.getPassword()%>"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Gender : </td>
+                                                        <td><%=user.getGender().toUpperCase()%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>About : </td>
+                                                        <td><textarea rows="3" class="form-control" name="user-about"><%=user.getAbout()%></textarea></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>New Profile</td>
+                                                        <td>
+                                                            <input type="file" name="image" class="form-control">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                    <div class="container">
+                                                        <button type="submit" class="btn btn-outline-primary">Save</button>
+                                                    </div>
+                                            </form>
+                                        </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary primary-background">EDIT</button>
+                        <button id="edit-profile-button" type="button" class="btn btn-primary primary-background">EDIT</button>
                     </div>
                 </div>
             </div>
@@ -130,12 +173,29 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <!--<script src="js/myjs.js" type="text/javascript"></script>-->
-        <!--        <script>
-        //            $(document).ready(function(){
-        //                alert("doc loaded");
-        //            })
-                
-                </script>-->
+        <script src="js/myjs.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function(){
+                let editStatus=false;
+               $('#edit-profile-button').click(function() {
+//                   alert("button clicked");
+                if(editStatus==false)
+                {
+                    $('#profile-details').hide();
+                     $('#profile-edit').show();
+                     editStatus=true;
+                     $(this).text("Back")
+                }
+                else
+                {
+                    $('#profile-details').show();
+                     $('#profile-edit').hide();
+                     editStatus=false;
+                     $(this).text("Edit")
+                }
+                     
+            })
+            });
+        </script>
     </body>
 </html>
