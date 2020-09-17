@@ -48,8 +48,8 @@
                                 <div class="form-group">
                                     <label for="gender">Select Gender</label>
                                     <br>
-                                    <input type="radio" id="gender" name="gender">Male
-                                    <input type="radio" id="gender" name="gender">Female
+                                    <input type="radio" id="gender" name="gender" value="Male">Male
+                                    <input type="radio" id="gender" name="gender" value="Female">Female
                                 </div>
                                 <div class="form-check">
                                     <input name="check" type="checkbox" class="form-check-input" id="exampleCheck1">
