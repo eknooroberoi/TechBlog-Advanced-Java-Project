@@ -1,3 +1,6 @@
+<%@page import="com.tech.blog.entities.Category"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.tech.blog.dao.PostDao"%>
 <%@page import="com.tech.blog.entities.Message"%>
 <%@page import="com.tech.blog.entities.User"%>
 <%@page import="com.tech.blog.helper.ConnectionProvider" %>
@@ -52,6 +55,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><span class="fa fa-address-book"></span>Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-asterisk"></span>Do Post</a>
                     </li>
 
 
@@ -183,6 +189,62 @@
             </div>
         </div>
         <!--end of profile modal-->
+
+        <!--add post modal-->
+
+        <!-- Modal -->
+        <div class="modal fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Provide the post details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="AddPostServlet" method="post">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option selected disabled>---Select Category---</option>
+                                    <%
+                                        PostDao postd = new PostDao(ConnectionProvider.getConnection());
+                                        ArrayList<Category> list = postd.getAllCategories();
+                                        for (Category c : list) {
+                                    %>
+                                    <option><%=c.getName()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Enter post Title" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Enter your content"style="height: 100px"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Enter your program(if any)"style="height: 100px"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Select your pic..</label>
+                                <br>
+                                <input type="file">
+                            </div>
+
+
+                        </form> 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary primary-background">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--end add post modal-->
 
         <!--javascripts-->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
