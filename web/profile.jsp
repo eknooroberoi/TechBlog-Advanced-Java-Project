@@ -1,4 +1,5 @@
 <%@page import="com.tech.blog.entities.User"%>
+<%@page import="com.tech.blog.helper.ConnectionProvider" %>
 <%@page errorPage="error_page.jsp" %>
 <%
     User user = (User) session.getAttribute("currentUser");
@@ -120,7 +121,7 @@
                                         <!--profile edit-->
                                         <div id="profile-edit" style="display: none;">
                                             <h3 class="mt-2">Please Edit carefully!</h3>
-                                            <form action="EditServlet" method="post">
+                                            <form action="EditServlet" method="post" enctype="multipart/form-data">
                                                 <table class="table">
                                                     <tr>
                                                         <td>ID : </td>
@@ -144,7 +145,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>About : </td>
-                                                        <td><textarea rows="3" class="form-control" name="user-about"><%=user.getAbout()%></textarea></td>
+                                                        <td><textarea rows="3" class="form-control" name="user_about"><%=user.getAbout()%></textarea></td>
                                                     </tr>
                                                     <tr>
                                                         <td>New Profile</td>
