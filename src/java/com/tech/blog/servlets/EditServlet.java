@@ -6,8 +6,11 @@
 package com.tech.blog.servlets;
 
 import com.tech.blog.dao.UserDao;
+import com.tech.blog.entities.Message;
 import com.tech.blog.entities.User;
 import com.tech.blog.helper.ConnectionProvider;
+import com.tech.blog.helper.Helper;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,7 +23,7 @@ import javax.servlet.http.Part;
 
 /**
  *
- * @author Admin
+ * @author Durgesh
  */
 @MultipartConfig
 public class EditServlet extends HttpServlet {
@@ -42,44 +45,67 @@ public class EditServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditServlet</title>");            
+            out.println("<title>Servlet EditServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            
-            //fetch form data and update it in users table
-            
-            //fetch all data
-            String userEmail=request.getParameter("user_email");
-            String userName=request.getParameter("user_name");
-            String userPassword=request.getParameter("user_password");
-            String userAbout=request.getParameter("user_about");
-            Part part=request.getPart("image");
-            String imageName=part.getSubmittedFileName();
-            
-            //get the user from the session
-            HttpSession s=request.getSession();
-            
-            //get login user from the session
-            User user=(User) s.getAttribute("currentUser");
+
+//            fetch all data
+            String userEmail = request.getParameter("user_email");
+            String userName = request.getParameter("user_name");
+            String userPassword = request.getParameter("user_password");
+            String userAbout = request.getParameter("user_about");
+            Part part = request.getPart("image");
+
+            String imageName = part.getSubmittedFileName();
+
+            //get the user from the session...
+            HttpSession s = request.getSession();
+            User user = (User) s.getAttribute("currentUser");
             user.setEmail(userEmail);
             user.setName(userName);
             user.setPassword(userPassword);
             user.setAbout(userAbout);
+            String oldFile = user.getProfile();
+
             user.setProfile(imageName);
-            
-            //update data in database
-            UserDao userDao=new UserDao(ConnectionProvider.getConnection());
-            boolean ans= userDao.updateUser(user);
-            if(ans)
-            {
-                out.println("updated to db");
+
+            //update database....
+            UserDao userDao = new UserDao(ConnectionProvider.getConnection());
+
+            boolean ans = userDao.updateUser(user);
+            if (ans) {
+
+                String path = request.getRealPath("/") + "pics" + File.separator + user.getProfile();
+
+                //start of photo work
+                //delete code
+                String pathOldFile = request.getRealPath("/") + "pics" + File.separator + oldFile;
+
+                if (!oldFile.equals("default.png")) {
+                    Helper.deleteFile(pathOldFile);
+                }
+
+                if (Helper.saveFile(part.getInputStream(), path)) {
+                    out.println("Profile updated...");
+                    Message msg = new Message("Profile details updated...", "success", "alert-success");
+                    s.setAttribute("msg", msg);
+
+                } else {
+                    //////////////
+                    Message msg = new Message("Something went wrong..", "error", "alert-danger");
+                    s.setAttribute("msg", msg);
+                }
+
+                //end of phots work
+            } else {
+                out.println("not updated..");
+                Message msg = new Message("Something went wrong..", "error", "alert-danger");
+                s.setAttribute("msg", msg);
+
             }
-            else
-            {
-                out.println("not updated");
-            }
-            
-            
+
+            response.sendRedirect("profile.jsp");
+
             out.println("</body>");
             out.println("</html>");
         }
