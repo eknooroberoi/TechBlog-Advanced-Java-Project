@@ -117,8 +117,15 @@
                     </div>
 
                     <!--second column-->
-                    <div class="col-md-8">
+                    <div class="col-md-8" >
                         <!--posts-->
+                        <div class="container text-center" id="loader">
+                            <i class="fa fa-refresh fa-3x fa-spin"></i>
+                            <h3 class="mt-2">Loading...</h3>
+                        </div>
+                        <div class="container-fluid" id="post-container" >
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -353,6 +360,20 @@
             })
         </script>
 
+        <!--loading post using ajax-->
+        <script>
+            $(document).ready(function() {
+                $.ajax({
+                    url: "load_posts.jsp",
+//                    by default method is get
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        $("#loader").hide();
+                        $("#post-container").html(data);
+                    }
+                })
+})
+        </script>
 
     </body>
 </html>
