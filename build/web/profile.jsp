@@ -98,7 +98,7 @@
                     <div class="col-md-4">
                         <!--categories-->
                         <div class="list-group">
-                            <a href="#" onclick="getPosts(0)" class="list-group-item list-group-item-action active">
+                            <a href="#" onclick="getPosts(0,this)" class="c-link list-group-item list-group-item-action active">
                                 All Posts
                             </a>
                        
@@ -108,7 +108,7 @@
                                 for(Category cc:list1)
                                 {
                                     %>
-                                    <a href="#" onclick="getPosts(<%=cc.getCid() %>)" class="list-group-item list-group-item-action"><%=cc.getName() %></a>
+                                    <a href="#" onclick="getPosts(<%=cc.getCid() %>,this)" class="c-link list-group-item list-group-item-action"><%=cc.getName() %></a>
                                     <%
                                 }
                             %>
@@ -362,10 +362,11 @@
 
         <!--loading post using ajax-->
         <script>
-            function getPosts(catId)
+            function getPosts(catId,temp)
             {
                 $('#loader').show();
                 $("#post-container").hide()
+                $(".c-link").removeClass('active')
                 $.ajax({
                     url: "load_posts.jsp",
                     data: {cid: catId},
@@ -375,11 +376,13 @@
                         $("#loader").hide();
                         $("#post-container").show();
                         $("#post-container").html(data);
+                        $(temp).addClass('active')
                     }
                 })
             }
             $(document).ready(function() {
-                getPosts(0)
+                let allPostRef=$('.c-link')[0]
+                getPosts(0,allPostRef)
 })
         </script>
 
