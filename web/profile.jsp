@@ -87,6 +87,46 @@
             }
 
         %>
+
+
+        <!--main body of the page-->
+
+        <main>
+            <div class="container">
+                <div class="row mt-4">
+                    <!--first column-->
+                    <div class="col-md-4">
+                        <!--categories-->
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action active">
+                                All Posts
+                            </a>
+                       
+                            <%
+                                PostDao d=new PostDao(ConnectionProvider.getConnection());
+                                ArrayList<Category> list1=d.getAllCategories();
+                                for(Category cc:list1)
+                                {
+                                    %>
+                                    <a href="#" class="list-group-item list-group-item-action"><%=cc.getName() %></a>
+                                    <%
+                                }
+                            %>
+                            
+                        </div>
+                    </div>
+
+                    <!--second column-->
+                    <div class="col-md-8">
+                        <!--posts-->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!--end main body of the page-->
+
+
         <!--start of profile modal-->
 
 
