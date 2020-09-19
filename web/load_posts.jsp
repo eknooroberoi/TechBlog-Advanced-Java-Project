@@ -5,8 +5,24 @@
 
 <div class="row">
 <%
+    //to show the loader write thread.sleep(1000), on hosting on some online platform like aws remove this line
+    Thread.sleep(1000);
     PostDao d=new PostDao(ConnectionProvider.getConnection());
-    List<Post> posts=d.getAllPosts();
+    int cid=Integer.parseInt(request.getParameter("cid"));
+    List<Post> posts=null;
+    if(cid==0)
+    {
+    posts=d.getAllPosts();
+    }
+    else
+    {
+        posts=d.getPostByCatId(cid);
+    }
+    if(posts.size()==0)
+    {
+        out.println("<h3 class='display-3 text-center'>No posts in this category..</h3>");
+        return;
+    }
     for(Post p: posts)
     {
         %>
