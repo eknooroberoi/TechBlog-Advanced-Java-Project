@@ -5,6 +5,8 @@ import com.tech.blog.entities.Post;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class PostDao {
     
     Connection con;
@@ -114,5 +116,32 @@ public class PostDao {
         }
         
         return list;
+    }
+    
+    public Post getPostByPostId(int postId)
+    {
+        Post post=null;
+        String q="select * from posts where pid=?";
+        
+        try {
+            PreparedStatement p=this.con.prepareStatement(q);
+            p.setInt(1, postId);
+            ResultSet set=p.executeQuery();
+            if(set.next())
+            {
+                 int pid=set.getInt("pid");
+                String pTitle =set.getString("pTitle");
+                String pContent=set.getString("pContent");
+                String pCode=set.getString("pCode");
+                String pPic=set.getString("pPic");
+                Timestamp date=set.getTimestamp("pDate");
+                int catId=set.getInt("catId");
+                int userId=set.getInt("userId");
+                post=new Post(pid,pTitle, pContent, pCode, pPic, date, catId, userId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return post;
     }
 }
