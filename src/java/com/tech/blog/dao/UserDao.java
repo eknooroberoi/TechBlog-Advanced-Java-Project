@@ -2,6 +2,8 @@
 package com.tech.blog.dao;
 import com.tech.blog.entities.User;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class UserDao {
     private Connection con;
 
@@ -84,5 +86,38 @@ public class UserDao {
             e.printStackTrace();
         }
         return f;
+    }
+    
+    public User getUserByUserId(int userId)
+    {
+        User user=null;
+        
+        
+        try {
+            String q="select * from user where id=?";
+            PreparedStatement ps=this.con.prepareStatement(q);
+            ps.setInt(1, userId);
+            ResultSet set=ps.executeQuery();
+            if(set.next())
+            {
+                user=new User();
+                //data from db
+                String name=set.getString("name");
+                //set to user object
+                user.setName(name);
+                user.setId(set.getInt("id"));
+                user.setEmail(set.getString("email"));
+                user.setPassword(set.getString("password"));
+                user.setGender(set.getString("gender"));
+                user.setAbout(set.getString("about"));
+                user.setDateTime(set.getTimestamp("rdate"));
+                user.setProfile(set.getString("profile"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        return user;
     }
 }

@@ -1,3 +1,5 @@
+<%@page import="java.text.DateFormat"%>
+<%@page import="com.tech.blog.dao.UserDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.tech.blog.entities.Category"%>
 <%@page import="com.tech.blog.entities.Post"%>
@@ -50,6 +52,12 @@
             .row-user{
                 border: 1px solid gray;
                 padding-top: 15px;
+            }
+            
+            body{
+                background: url(img/background.jpg);
+                background-size: cover;
+                background-attachment: fixed;
             }
         </style>
     </head>
@@ -112,10 +120,13 @@
                             <img class="card-img-top my-2" src="blog_pics/<%= p.getpPic() %>" alt="Card image cap">
                             <div class="row my-3 row-user">
                                 <div class="col-md-8">
-                                    <p class="post-user-info"><a href="#!">Eknoor</a> has posted : </p>
+                                    <%
+                                        UserDao ud=new UserDao(ConnectionProvider.getConnection());
+                                        %>
+                                        <p class="post-user-info"><a href="#!"><%=ud.getUserByUserId(p.getUserId()).getName() %></a> has posted : </p>
                                 </div>
                                 <div class="col-md-4">
-                                    <p class="post-date"><%= p.getpDate().toLocaleString()%></p>
+                                    <p class="post-date"><%= DateFormat.getDateTimeInstance().format(p.getpDate())%></p>
                                 </div>
                             </div>
                             <p class="post-content"><%=p.getpContent() %></p>

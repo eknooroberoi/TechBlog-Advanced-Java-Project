@@ -25,6 +25,12 @@
             .banner-background{
                 clip-path: polygon(0 0, 100% 0, 100% 30%, 100% 94%, 70% 100%, 31% 96%, 0 100%, 0% 30%);
             }
+            
+            body{
+                background: url(img/background.jpg);
+                background-size: cover;
+                background-attachment: fixed;
+            }
         </style>
     </head>
     <body>
