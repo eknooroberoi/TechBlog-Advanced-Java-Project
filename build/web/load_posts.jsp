@@ -33,10 +33,14 @@
                 <div class="card-body">
                     <b><%=p.getpTitle() %></b>
                     <p><%=p.getpContent() %></p>
-                    <pre>
-                        <%= p.getpCode() %>
-                    </pre>
+                    
                 </div>
+                    <div class="card-footer text-center bg-primary primary-background">
+                        <a href="#!" class="btn btn-outline-light btn-sm"><i class="fa fa-thumbs-o-up"></i> <span>10</span></a>
+                        <a href="show_blog_page.jsp?post_id=<%=p.getPid() %>" class="btn btn-outline-light btn-sm">Read More...</a>
+                        
+                        <a href="#!" class="btn btn-outline-light btn-sm"><i class="fa fa-commenting-o"></i> <span>20</span></a>
+                    </div>
             </div>
             
         </div>
