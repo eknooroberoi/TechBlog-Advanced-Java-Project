@@ -31,6 +31,26 @@
             .banner-background{
                 clip-path: polygon(0 0, 100% 0, 100% 30%, 100% 94%, 70% 100%, 31% 96%, 0 100%, 0% 30%);
             }
+            .post-title{
+                font-weight: 100;
+                font-size: 30px;
+            }
+            .post-content{
+                font-weight: 100;
+                font-size: 25px;
+            }
+            .post-date{
+                font-style: italic;
+                font-weight: bold;
+            }
+            .post-user-info{
+                font-size: 20px;
+                font-weight: 250;
+            }
+            .row-user{
+                border: 1px solid gray;
+                padding-top: 15px;
+            }
         </style>
     </head>
     <body>
@@ -86,14 +106,24 @@
                 <div class="col-md-8 offset-md-2">
                     <div class="card">
                         <div class="card-header primary-background text-white">
-                            <h4><%=p.getpTitle() %></h4>
+                            <h4 class="post-title"><%=p.getpTitle() %></h4>
                         </div>
                         <div class="card-body">
                             <img class="card-img-top my-2" src="blog_pics/<%= p.getpPic() %>" alt="Card image cap">
-                            <p><%=p.getpContent() %></p>
+                            <div class="row my-3 row-user">
+                                <div class="col-md-8">
+                                    <p class="post-user-info"><a href="#!">Eknoor</a> has posted : </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="post-date"><%= p.getpDate().toLocaleString()%></p>
+                                </div>
+                            </div>
+                            <p class="post-content"><%=p.getpContent() %></p>
                             <br>
                             <br>
+                            <div class="post-code">
                             <pre><%=p.getpCode() %></pre>
+                            </div>
                         </div>
                         <div class="card-footer text-center bg-primary primary-background">
                         <a href="#!" class="btn btn-outline-light btn-sm"><i class="fa fa-thumbs-o-up"></i> <span>10</span></a>
